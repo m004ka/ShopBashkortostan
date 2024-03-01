@@ -1,7 +1,6 @@
 package org.urr.shopbashkortostan.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,20 +13,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.urr.shopbashkortostan.JwtCore;
+import org.urr.shopbashkortostan.TokenJWT.JwtCore;
 import org.urr.shopbashkortostan.dto.SignUpForm;
 import org.urr.shopbashkortostan.dto.SingInForm;
 import org.urr.shopbashkortostan.models.Account;
 import org.urr.shopbashkortostan.repositories.AccountRepository;
+import org.urr.shopbashkortostan.service.Impl.SignUpServiceImpl;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class SecurityController {
 
+    private final SignUpServiceImpl signUpService;
     private final AuthenticationManager authenticationManager;
     private final AccountRepository accountRepository;
-    private final PasswordEncoder passwordEncoder;
+
     private final JwtCore jwtCore;
 
     @PostMapping("/signUp")
@@ -38,11 +39,7 @@ public class SecurityController {
         if (accountRepository.existsAccountByEmail(signUpForm.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Choose different email");
         }
-        Account account = new Account();
-        account.setFirstName(signUpForm.getFirstName());
-        account.setEmail(signUpForm.getEmail());
-        account.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
-        accountRepository.save(account);
+        signUpService.SignUp(signUpForm);
         return ResponseEntity.ok("Success body");
     }
 
@@ -59,4 +56,5 @@ public class SecurityController {
         String jwt = jwtCore.generateToken(authentication);
         return ResponseEntity.ok(jwt);
     }
+
 }
