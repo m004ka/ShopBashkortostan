@@ -1,4 +1,4 @@
-package org.urr.shopbashkortostan;
+package org.urr.shopbashkortostan.TokenJWT;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+
 import java.io.IOException;
 
 @Component

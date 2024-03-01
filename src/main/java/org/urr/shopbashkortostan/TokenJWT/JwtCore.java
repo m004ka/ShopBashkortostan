@@ -1,4 +1,4 @@
-package org.urr.shopbashkortostan;
+package org.urr.shopbashkortostan.TokenJWT;
 
 
 import io.jsonwebtoken.Jwt;
@@ -43,4 +43,8 @@ public class JwtCore {
 
         return (claims.getSubject());
     }
+
+
+
+
 }
