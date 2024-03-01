@@ -1,6 +1,7 @@
 package org.urr.shopbashkortostan.service.Impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.urr.shopbashkortostan.service.interfaces.SignUpService;
 import org.urr.shopbashkortostan.dto.SignUpForm;
@@ -9,8 +10,10 @@ import org.urr.shopbashkortostan.repositories.AccountRepository;
 
 @Service
 @RequiredArgsConstructor
+
 public class SignUpServiceImpl implements SignUpService {
 
+    private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
 
     @Override
@@ -19,7 +22,8 @@ public class SignUpServiceImpl implements SignUpService {
                 .email(form.getEmail())
                 .firstName(form.getFirstName())
                 .lastName(form.getLastName())
-                .password(form.getPassword())
+                .password(passwordEncoder.encode(form.getPassword()))
+                .role(Account.Role.USER)
                 .build();
         accountRepository.save(account);
     }

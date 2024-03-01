@@ -13,11 +13,13 @@ import java.util.Collection;
 public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String username;
+    private String lastName;
     private String email;
     private String password;
+    private Account.Role role;
 
     public static UserDetailsImpl build(Account account) {
-        return new UserDetailsImpl(account.getId(), account.getFirstName(), account.getEmail(), account.getPassword());
+        return new UserDetailsImpl(account.getId(), account.getFirstName(), account.getLastName(), account.getEmail(), account.getPassword(),account.getRole());
     }
 
     @Override

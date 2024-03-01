@@ -29,7 +29,7 @@ public class Account {
     @Column(name = "Email")
     private String email;
 
-    enum Role {
+    public enum Role {
         ADMIN, USER, MODER
     }
 
