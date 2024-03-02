@@ -25,13 +25,13 @@ public class CartStove {
     private String Text;
 
 
-    private enum Size {
+    public enum Size {
         SIZE_15, SIZE_25,SIZE_35,SIZE_50, SIZE_100
     }
     @Column(name = "Size")
     private Size size;
 
-    @Column(name = "Desitny")
+    @Column(name = "Density")
     private int density;
     @Column(name = "Mark")
     private String mark;
