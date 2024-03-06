@@ -14,28 +14,30 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CartStove {
+public class Plate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    @Column(name = "Price")
+
     private BigDecimal price;
     private float priceForMeterSquare;
-    @Column(name = "Description")
-    private String Text;
+
+    private String description;
 
 
     public enum Size {
         SIZE_15, SIZE_25,SIZE_35,SIZE_50, SIZE_100
     }
-    @Column(name = "Size")
+
     private Size size;
 
-    @Column(name = "Density")
     private int density;
-    @Column(name = "Mark")
-    private String mark;
 
-    @Column(name = "Height")
+    private String brand;
+
+
     private float height;
+
+    private int inStock;
+
 }

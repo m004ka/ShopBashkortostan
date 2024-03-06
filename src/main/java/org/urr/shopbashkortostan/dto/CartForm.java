@@ -15,9 +15,6 @@ import java.math.BigDecimal;
 public class CartForm {
     private BigDecimal price;
     private String Text;
-    private enum Size {
-        SIZE_15, SIZE_25,SIZE_35,SIZE_50, SIZE_100
-    }
     private int density;
     private String mark;
 
