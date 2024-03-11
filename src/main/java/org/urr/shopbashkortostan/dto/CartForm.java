@@ -15,8 +15,7 @@ import java.math.BigDecimal;
 public class CartForm {
     private BigDecimal price;
     private String Text;
-    private int density;
+   private int density;
     private String mark;
-
     private float height;
 }

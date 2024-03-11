@@ -1,16 +1,17 @@
 package org.urr.shopbashkortostan.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.urr.shopbashkortostan.enums.OrderStatus;
 
-import java.util.Date;
+import java.math.BigDecimal;
 import java.util.List;
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,8 +22,15 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long accountId;
+    @OneToOne
+    private Account account;
 
-    private Date createDate;
+    @OneToMany
+    private List<Product> products;
+    private BigDecimal totalAmount;
+    private BigDecimal totalWeight;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
 }
+

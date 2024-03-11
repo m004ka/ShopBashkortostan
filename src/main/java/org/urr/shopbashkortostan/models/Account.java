@@ -17,16 +17,9 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "FirstName")
-    private String firstName;
-
-    @Column(name = "LastName")
-    private String lastName;
-
-    @Column(name = "password")
+    private String username;
+    private String fullName;
     private String password;
-
-    @Column(name = "Email")
     private String email;
 
     public enum Role {
