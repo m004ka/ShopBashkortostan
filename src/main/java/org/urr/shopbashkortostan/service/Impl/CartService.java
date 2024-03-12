@@ -30,12 +30,9 @@ public class CartService {
             id = account.get().getId();
             System.out.println("ид аккаунта = " + id);
         }
-        try {
+        Cart cart = cartRepository.findByAccountId(id).orElseThrow(() -> new RuntimeException("Cart not found"));
+        System.out.println(cart);
 
-            Cart cart = cartRepository.fi   ndByAccountId(id).orElseThrow(() -> new RuntimeException("Cart not found"));
-        }catch (){
-
-        }
     }
 
     public void removeFromCart(Long productId) {
