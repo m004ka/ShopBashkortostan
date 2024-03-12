@@ -24,9 +24,8 @@ public class Cart {
 
     @OneToOne
     private Account account;
-
     @OneToMany
-    private List<Product> products;
+    List<CartItem> cartItems;
     private BigDecimal totalAmount;
     private BigDecimal totalWeight;
     @Enumerated(EnumType.STRING)

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SingInForm {
-    private String firstName;
+    private String username;
     private String password;
 }

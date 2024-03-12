@@ -20,6 +20,7 @@ public class Account {
     private String username;
     private String fullName;
     private String password;
+    private String phoneNumber;
     private String email;
 
     public enum Role {

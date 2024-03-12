@@ -2,6 +2,7 @@ package org.urr.shopbashkortostan.service.Impl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.urr.shopbashkortostan.models.Account;
@@ -11,6 +12,7 @@ import java.util.Collection;
 @Data
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
+    @Getter
     private Long id;
     private String username;
     private String lastName;
@@ -19,7 +21,7 @@ public class UserDetailsImpl implements UserDetails {
     private Account.Role role;
 
     public static UserDetailsImpl build(Account account) {
-        return new UserDetailsImpl(account.getId(), account.getFirstName(), account.getLastName(), account.getEmail(), account.getPassword(),account.getRole());
+        return new UserDetailsImpl(account.getId(), account.getUsername(), account.getFullName(), account.getEmail(), account.getPassword(),account.getRole());
     }
 
     @Override

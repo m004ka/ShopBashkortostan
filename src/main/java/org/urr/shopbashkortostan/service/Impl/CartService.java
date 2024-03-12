@@ -1,60 +1,61 @@
 package org.urr.shopbashkortostan.service.Impl;
 
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.urr.shopbashkortostan.models.CartItem;
+import org.urr.shopbashkortostan.models.Account;
+import org.urr.shopbashkortostan.models.Cart;
 import org.urr.shopbashkortostan.models.Product;
+import org.urr.shopbashkortostan.repositories.AccountRepository;
+import org.urr.shopbashkortostan.repositories.CartRepository;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.Console;
+import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class CartService {
 
-    private Map<Long, CartItem> cartItems = new HashMap<>();
 
-    // Добавление товара в корзину
-    public void addToCart(Product product, int quantity) {
-        if (cartItems.containsKey(product.getId())) {
-            CartItem item = cartItems.get(product.getId());
-            item.setQuantity(item.getQuantity() + quantity);
-        } else {
-            cartItems.put(product.getId(), new CartItem(product, quantity));
+    private final CartRepository cartRepository; // Репозиторий для работы с корзинами
+    private final AccountRepository accountRepository;
+    private final AccountService accountService;
+
+    public void addToCart(Product product, int quantity, Authentication authentication) {
+        Long id = null;
+        System.out.println("ид аккаунта = " + id);
+        Optional<Account> account = accountService.getAccountFromAuthentication(authentication);
+        if(account.isPresent()){
+            id = account.get().getId();
+            System.out.println("ид аккаунта = " + id);
+        }
+        try {
+
+            Cart cart = cartRepository.fi   ndByAccountId(id).orElseThrow(() -> new RuntimeException("Cart not found"));
+        }catch (){
+
         }
     }
 
-    // Удаление товара из корзины
     public void removeFromCart(Long productId) {
-        cartItems.remove(productId);
+        // Логика удаления товара из корзины в базе данных
     }
 
-    // Изменение количества товара в корзине
     public void updateCartItemQuantity(Long productId, int quantity) {
-        if (cartItems.containsKey(productId)) {
-            cartItems.get(productId).setQuantity(quantity);
-        }
+        // Логика обновления количества товара в корзине в базе данных
     }
 
-    // Получение информации о товарах в корзине
-    public List<CartItem> getCartItems() {
-        return new ArrayList<>(cartItems.values());
+//    public List<CartItem> getCartItems(Long cartId) {
+//        // Логика получения списка товаров в корзине из базы данных
+//    }
+
+    public void clearCart(Long cartId) {
+        // Логика очистки корзины в базе данных
     }
 
-    // Очистка корзины
-    public void clearCart() {
-        cartItems.clear();
-    }
-
-    // Рассчет общей стоимости товаров в корзине
-    public double getCartTotal() {
-        double total = 0.0;
-        for (CartItem item : cartItems.values()) {
-            total += item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())).doubleValue();
-        }
-        return total;
-    }
-
-
+//    public BigDecimal getCartTotal(Long cartId) {
+//        // Логика расчета общей стоимости товаров в корзине из базы данных
+//        return
+//    }
 }

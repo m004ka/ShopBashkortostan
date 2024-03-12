@@ -1,15 +1,8 @@
 package org.urr.shopbashkortostan.models;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.urr.shopbashkortostan.enums.Status;
+import jakarta.persistence.*;
+import lombok.*;
+import org.urr.shopbashkortostan.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -19,17 +12,25 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Builder
+@Table(name = "Ordeer")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long id;
 
-    private Long accountId;
+    @ManyToOne
+    Account account;
 
-    private BigDecimal total_amount;
+    private BigDecimal exactAmount;
 
-    private Date createdDay;
+    private BigDecimal amountWithVAT;
 
-    private Status status;
+    private Date orderDate;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    private String address;
+
 }
