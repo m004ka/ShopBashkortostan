@@ -1,16 +1,22 @@
 package org.urr.shopbashkortostan.service.Impl;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.urr.shopbashkortostan.models.Account;
 import org.urr.shopbashkortostan.models.Cart;
+import org.urr.shopbashkortostan.models.CartItem;
 import org.urr.shopbashkortostan.models.Product;
 import org.urr.shopbashkortostan.repositories.AccountRepository;
+import org.urr.shopbashkortostan.repositories.CartItemRepository;
 import org.urr.shopbashkortostan.repositories.CartRepository;
+import org.urr.shopbashkortostan.repositories.ProductRepository;
 
 import java.io.Console;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -19,20 +25,23 @@ public class CartService {
 
 
     private final CartRepository cartRepository; // Репозиторий для работы с корзинами
-    private final AccountRepository accountRepository;
+    private final CartItemServiceImpl cartItemService;
     private final AccountService accountService;
+    private final CartItemRepository cartItemRepository;
+    private final ProductRepository productRepository;
 
-    public void addToCart(Product product, int quantity, Authentication authentication) {
-        Long id = null;
-        System.out.println("ид аккаунта = " + id);
-        Optional<Account> account = accountService.getAccountFromAuthentication(authentication);
-        if(account.isPresent()){
-            id = account.get().getId();
-            System.out.println("ид аккаунта = " + id);
-        }
-        Cart cart = cartRepository.findByAccountId(id).orElseThrow(() -> new RuntimeException("Cart not found"));
-        System.out.println(cart);
+    @Transactional
+    public void addToCart(Product product, int quantity, Account account) {
+        Cart cart = cartRepository.findByAccountId(account.getId()).orElseThrow(() -> new RuntimeException("Корзина не найдена"));
+        Hibernate.initialize(cart.getCartItems());
+        CartItem cartItem = CartItem.builder()
+                .product(product)
+                .quantity(quantity)
+                .build();
+        cartItemRepository.save(cartItem);
 
+        cart.getCartItems().add(cartItem);
+        cartRepository.save(cart);
     }
 
     public void removeFromCart(Long productId) {

@@ -3,6 +3,8 @@ package org.urr.shopbashkortostan.service.Impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.urr.shopbashkortostan.models.Cart;
+import org.urr.shopbashkortostan.repositories.CartRepository;
 import org.urr.shopbashkortostan.service.interfaces.SignUpService;
 import org.urr.shopbashkortostan.dto.SignUpForm;
 import org.urr.shopbashkortostan.models.Account;
@@ -15,6 +17,7 @@ public class SignUpServiceImpl implements SignUpService {
 
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
+    private final CartRepository cartRepository;
 
     @Override
     public void SignUp(SignUpForm form) {
@@ -27,5 +30,10 @@ public class SignUpServiceImpl implements SignUpService {
                 .role(Account.Role.USER)
                 .build();
         accountRepository.save(account);
+
+        Cart cart = Cart.builder()
+                .account(account)
+                .build();
+        cartRepository.save(cart);
     }
 }
