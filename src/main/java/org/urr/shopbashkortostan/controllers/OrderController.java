@@ -2,8 +2,14 @@ package org.urr.shopbashkortostan.controllers;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.urr.shopbashkortostan.dto.OrderDTO;
+import org.urr.shopbashkortostan.enums.OrderStatus;
+import org.urr.shopbashkortostan.models.Account;
 import org.urr.shopbashkortostan.models.Order;
+import org.urr.shopbashkortostan.repositories.AccountRepository;
+import org.urr.shopbashkortostan.service.Impl.AccountService;
 import org.urr.shopbashkortostan.service.Impl.OrderService;
 
 
@@ -15,12 +21,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-    OrderService orderService;
+    private final OrderService orderService;
+    private final AccountService accountService;
 
     // 1. Создание нового заказа
     @PostMapping("/create")
-    public void createOrder(@RequestBody Order order) {
-        orderService.createOrder(order);
+    public void createOrder(@RequestBody OrderDTO orderDTO, Authentication authentication) {
+        Account account = accountService.getAccountFromAuthentication(authentication).orElseThrow(() -> new RuntimeException("Аккаунт не найден"));
+        orderService.createOrder(orderDTO, account);
     }
 
     // 2. Получение информации о конкретном заказе
@@ -30,14 +38,15 @@ public class OrderController {
     }
 
     // 3. Получение списка всех заказов пользователя
-    @GetMapping("/user/{userId}")
-    public List<Order> getUserOrders(@PathVariable Long userId) {
-        return orderService.getUserOrders(userId);
+    @GetMapping("/user")
+    public List<Order> getUserOrders(Authentication authentication) {
+        Account account = accountService.getAccountFromAuthentication(authentication).orElseThrow(() -> new RuntimeException("Аккаунт не найден"));
+        return orderService.getUserOrders(account);
     }
 
     // 4. Обновление статуса заказа
     @PutMapping("/{orderId}/update-status")
-    public void updateOrderStatus(@PathVariable Long orderId, @RequestParam String status) {
+    public void updateOrderStatus(@PathVariable Long orderId, @RequestParam OrderStatus status) {
         orderService.updateOrderStatus(orderId, status);
     }
 

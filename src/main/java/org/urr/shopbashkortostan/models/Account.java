@@ -24,6 +24,7 @@ public class Account {
     private String email;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "account", orphanRemoval = true)
     private Cart cart = Cart.builder().account(this).build();
+
     public enum Role {
         ADMIN, USER, MODER
     }
