@@ -27,7 +27,7 @@ public class Feedback {
     @OneToOne
     Account account;
 
-    public  enum Rating{
+    public enum Rating {
         ONE, TWO, THREE, FOUR, FIVE
     }
 
