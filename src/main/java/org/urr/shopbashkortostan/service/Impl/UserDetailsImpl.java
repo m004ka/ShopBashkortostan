@@ -21,7 +21,7 @@ public class UserDetailsImpl implements UserDetails {
     private Account.Role role;
 
     public static UserDetailsImpl build(Account account) {
-        return new UserDetailsImpl(account.getId(), account.getUsername(), account.getFullName(), account.getEmail(), account.getPassword(),account.getRole());
+        return new UserDetailsImpl(account.getId(), account.getUsername(), account.getFullName(), account.getEmail(), account.getPassword(), account.getRole());
     }
 
     @Override

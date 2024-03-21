@@ -19,8 +19,7 @@ public class AccountService implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Account account = accountRepository.findAccountByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User" + username + "not found")));
+        Account account = accountRepository.findAccountByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User" + username + "not found")));
 
         return UserDetailsImpl.build(account);
     }
@@ -30,7 +29,7 @@ public class AccountService implements UserDetailsService {
 
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             Optional<Account> account = accountRepository.findAccountByUsername(authentication.getName());
-            if(account.isPresent()){
+            if (account.isPresent()) {
                 return account;
             }
         }

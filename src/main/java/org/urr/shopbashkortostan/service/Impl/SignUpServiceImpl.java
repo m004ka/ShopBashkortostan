@@ -21,19 +21,10 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     public void SignUp(SignUpForm form) {
-        Account account = Account.builder()
-                .email(form.getEmail())
-                .username(form.getUsername())
-                .fullName(form.getFullName())
-                .phoneNumber(form.getPhoneNumber())
-                .password(passwordEncoder.encode(form.getPassword()))
-                .role(Account.Role.USER)
-                .build();
+        Account account = Account.builder().email(form.getEmail()).username(form.getUsername()).fullName(form.getFullName()).phoneNumber(form.getPhoneNumber()).password(passwordEncoder.encode(form.getPassword())).role(Account.Role.USER).build();
         accountRepository.save(account);
 
-        Cart cart = Cart.builder()
-                .account(account)
-                .build();
+        Cart cart = Cart.builder().account(account).build();
         cartRepository.save(cart);
     }
 }

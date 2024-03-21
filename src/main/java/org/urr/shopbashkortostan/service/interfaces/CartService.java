@@ -13,6 +13,7 @@ public interface CartService {
     void updateCartItemQuantity(Long productId, int quantity);
 
     List<CartItem> getCartItems();
+
     void clearCart();
 
     double getCartTotal();

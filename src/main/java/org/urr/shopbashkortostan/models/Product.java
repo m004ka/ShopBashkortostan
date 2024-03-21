@@ -1,4 +1,5 @@
 package org.urr.shopbashkortostan.models;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
