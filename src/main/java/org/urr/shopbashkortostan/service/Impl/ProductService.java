@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -37,8 +36,7 @@ public class ProductService {
     }
 
     public Product updateProduct(Long id, Product updatedProduct) {
-        Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
 
         existingProduct.setName(updatedProduct.getName());
         existingProduct.setPrice(updatedProduct.getPrice());
