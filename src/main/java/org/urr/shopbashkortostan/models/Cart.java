@@ -24,7 +24,7 @@ public class Cart {
 
     @OneToOne
     private Account account;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<CartItem> cartItems;
     private BigDecimal totalAmount;
     private BigDecimal totalWeight;
