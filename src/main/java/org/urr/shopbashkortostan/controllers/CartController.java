@@ -28,7 +28,7 @@ public class CartController {
     @PostMapping("/add")
     public void addToCart(@RequestBody AddCartDTO addCartDTO, Authentication authentication) {
         Account account = accountService.getAccountFromAuthentication(authentication).orElseThrow(() -> new RuntimeException("Аккаунт не найден"));
-        Product product = productRepository.getProductById(addCartDTO.getProductId());
+        Product product = productRepository.getProductById(addCartDTO.getProductId()).orElseThrow(() -> new RuntimeException("Товар не найден"));
         cartService.addToCart(product, addCartDTO.getQuantity(), account);
     }
 
