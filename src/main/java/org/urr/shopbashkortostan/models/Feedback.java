@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.urr.shopbashkortostan.enums.Rating;
 
 import java.util.Date;
 
@@ -27,9 +28,7 @@ public class Feedback {
     @OneToOne
     Account account;
 
-    public enum Rating {
-        ONE, TWO, THREE, FOUR, FIVE
-    }
+    Rating rating;
 
     Date date;
 }

@@ -62,7 +62,10 @@ public class OrderController {
         return orderService.calculateOrderTotal(orderId);
     }
 
-    // 7. Удаление заказа
+
+    @PostMapping("/{orderId}/final")
+    public void finalOrder(@PathVariable Long orderId){orderService.finalOrder(orderId);}
+
     @DeleteMapping("/{orderId}/delete")
     public void deleteOrder(@PathVariable Long orderId) {
         orderService.deleteOrder(orderId);
