@@ -1,6 +1,7 @@
 package org.urr.shopbashkortostan.service.Impl;
 
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.urr.shopbashkortostan.dto.OrderDTO;
 import org.urr.shopbashkortostan.enums.Address;
@@ -8,6 +9,7 @@ import org.urr.shopbashkortostan.enums.OrderStatus;
 import org.urr.shopbashkortostan.models.Account;
 import org.urr.shopbashkortostan.models.Cart;
 import org.urr.shopbashkortostan.models.Order;
+import org.urr.shopbashkortostan.models.OrderHistory;
 import org.urr.shopbashkortostan.repositories.OrderRepository;
 
 import java.time.LocalDateTime;
@@ -19,6 +21,8 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final CartService cartService;
+    private final OrderHistoryService orderHistoryService;
 
     // Логика работы с заказами
 
@@ -35,6 +39,8 @@ public class OrderService {
                 .exactAmount(cart.getTotalAmount())
                 .build();
         orderRepository.save(order);
+        cartService.clearCart(account);
+
     }
 
     // Получение информации о конкретном заказе
@@ -68,7 +74,8 @@ public class OrderService {
 
     // Удаление заказа
     public void deleteOrder(Long orderId) {
-        // Логика удаления заказа
+        Order order = orderRepository.findOrderByOrderId(orderId).orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
+        orderRepository.delete(order);
     }
 
     // Подтверждение заказа
@@ -76,6 +83,13 @@ public class OrderService {
         Order order = orderRepository.findOrderByOrderId(orderId).orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
         order.setStatus(OrderStatus.ACCEPTED);
         orderRepository.save(order);
+    }
+
+    public void finalOrder(Long orderId){
+        Order order = orderRepository.findOrderByOrderId(orderId).orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
+        order.setStatus(OrderStatus.ACCEPTED);
+        orderHistoryService.AddOrderToHistory(order);
+        deleteOrder(orderId);
     }
 
     // Получение списка заказов за определенный период
