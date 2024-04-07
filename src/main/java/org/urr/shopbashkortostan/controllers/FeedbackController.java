@@ -52,8 +52,7 @@ public class FeedbackController {
         if(Objects.equals(feedback.getAccount().getId(), account.getId())){
            return feedbackService.updateFeedback(id, feedbackDTO);
         }else {
-            RuntimeException runtimeException = new RuntimeException("Не твой отзыв");
-            return null;
+            throw  new RuntimeException("Не твой отзыв");
         }
 
     }
@@ -65,7 +64,7 @@ public class FeedbackController {
         if(Objects.equals(feedback.getAccount().getId(), account.getId())){
              feedbackService.deleteFeedback(feedback);
         }else {
-            RuntimeException runtimeException = new RuntimeException("Не твой отзыв");
+            throw  new RuntimeException("Не твой отзыв");
         }
     }
 
